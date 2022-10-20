@@ -71,7 +71,7 @@ describe("Input handling", () => {
         expect(confirmInput).toHaveValue(mockInputs.confirm);
     });
 
-    it("should display 4 error messages if the fields are empty", async ()=> {
+    it("should display 4 error messages if the fields are empty", async () => {
         render(<SignUpUser/>);
         const fullNameInput = await screen.findByPlaceholderText("Enter full name");
         const emailInput = await screen.findByPlaceholderText("Enter email");
