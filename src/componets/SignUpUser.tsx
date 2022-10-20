@@ -112,7 +112,7 @@ function SignUpUser() {
                     type="submit" value="Submit"
                     data-testid="submit-button"
                 />
-                {submitError && <span>{submitError}</span>}
+                {submitError && <span data-testid="submitErr">{submitError}</span>}
             </form>
             {successMsg && <span data-testid="successMsg">{successMsg}</span>}
         </>

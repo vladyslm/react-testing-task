@@ -69,8 +69,30 @@ describe("Input handling", () => {
         expect(emailInput).toHaveValue(mockInputs.email);
         expect(passwordInput).toHaveValue(mockInputs.password);
         expect(confirmInput).toHaveValue(mockInputs.confirm);
-    })
-})
+    });
+
+    it("should display 4 error messages if the fields are empty", async ()=> {
+        render(<SignUpUser/>);
+        const fullNameInput = await screen.findByPlaceholderText("Enter full name");
+        const emailInput = await screen.findByPlaceholderText("Enter email");
+        const passwordInput = await screen.findByPlaceholderText("Enter password");
+        const confirmInput = await screen.findByPlaceholderText("Confirm password");
+
+        fireEvent.blur(fullNameInput);
+        fireEvent.blur(emailInput);
+        fireEvent.blur(passwordInput);
+        fireEvent.blur(confirmInput);
+
+        const required = await screen.findAllByText("Required!");
+        const invalidEmail = await screen.findByText("Provide a valid email");
+
+        expect(required.length).toBe(3);
+        required.forEach((el) => {
+            expect(el).toBeInTheDocument();
+        })
+        expect(invalidEmail).toBeInTheDocument();
+    });
+});
 
 describe("Send form", () => {
     const mockInputs = {
@@ -100,6 +122,15 @@ describe("Send form", () => {
 
         expect(successMsg).toBeInTheDocument();
         expect(successMsg).toHaveTextContent("Success");
+    });
+
+    it("should submit a form with an error and display the error as a message", async () => {
+        render(<SignUpUser/>);
+        const submitBtn = await screen.findByTestId("submit-button");
+        fireEvent.submit(submitBtn);
+
+        const successMsg = await screen.findByTestId("submitErr")
+        expect(successMsg).toBeInTheDocument();
     })
 })
 
